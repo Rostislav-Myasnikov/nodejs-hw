@@ -1,21 +1,21 @@
 import { Schema, model } from 'mongoose';
 
-const noteShema = new Schema(
+const noteSchema = new Schema(
   {
     title: {
       type: String,
       trim: true,
-      require: true,
+      required: true,
     },
     content: {
       type: String,
       default: '',
       trim: true,
-      require: false,
+      required: false,
     },
     tag: {
       type: String,
-      require: false,
+      required: false,
       enum: [
         'Work',
         'Personal',
@@ -34,4 +34,4 @@ const noteShema = new Schema(
   { timestamps: true },
 );
 
-export const Note = model('Note', noteShema);
+export const Note = model('Note', noteSchema);
