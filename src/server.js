@@ -1,7 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import { connectMongoDb } from './db/connectMongoDb.js';
+import { connectMongoDB } from './db/temp.js';
 
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
@@ -20,7 +20,7 @@ app.use(notFoundHandler);
 
 app.use(errorHandler);
 
-await connectMongoDb();
+await connectMongoDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
