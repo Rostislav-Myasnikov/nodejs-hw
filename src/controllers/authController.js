@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import bcrypt from 'bcrypt';
-import { createSession, setSessionCoockies } from '../services/auth.js';
+import { createSession, setSessionCookies } from '../services/auth.js';
 import { Session } from '../models/session.js';
 
 export const registerUser = async (req, res) => {
@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
 
   const newSession = await createSession(newUser._id);
 
-  setSessionCoockies(res, newSession);
+  setSessionCookies(res, newSession);
 
   return res.status(201).json(newUser);
 };
@@ -43,9 +43,9 @@ export const loginUser = async (req, res) => {
 
   const newSession = await createSession(user._id);
 
-  setSessionCoockies(res, newSession);
+  setSessionCookies(res, newSession);
 
-  res.status(201).json(user);
+  res.status(200).json(user);
 };
 
 export const logoutUser = async (req, res) => {
@@ -83,7 +83,7 @@ export const refreshUserSession = async (req, res) => {
   });
 
   const newSession = await createSession(session.userId);
-  setSessionCoockies(res, newSession);
+  setSessionCookies(res, newSession);
   res.status(200).json({
     message: 'session refreshed',
   });
