@@ -100,7 +100,9 @@ export const requestResetEmail = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    res.status(200).json({ message: 'Password reset email sent successfully' });
+    return res
+      .status(200)
+      .json({ message: 'Password reset email sent successfully' });
   }
 
   const resetToken = jwt.sign(
@@ -117,7 +119,7 @@ export const requestResetEmail = async (req, res) => {
 
   const html = template({
     name: user.username,
-    link: `${process.env.FRONTEND_DOMAIN}/reset-password?token?${resetToken}`,
+    link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
   });
 
   try {
@@ -156,7 +158,7 @@ export const resetPassword = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   await User.updateOne({ _id: user.userId }, { password: hashedPassword });
 
-  await Session.deleteMany({ _id: user.userId });
+  await Session.deleteMany({ userId: user.userId });
 
   res.status(200).json({
     message: 'Password reset successfully',
